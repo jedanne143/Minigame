@@ -3,8 +3,10 @@ let card1 = null ;
 let card2 = null;
 let matchedCards = []
 let selectedCards= []
-let match = new Audio("audio/correct.mp3")
-let mismatch = new Audio("audio/wrong.mp3")
+const match = new Audio("audio/correct.mp3")
+const mismatch = new Audio("audio/wrong.mp3")
+const winning = new Audio("audio/success-fanfare-trumpets-6185.mp3")
+const mainContainer = document.getElementById("mainContainer")
 
 //function called when playing the game
 function play(card) {
@@ -19,7 +21,7 @@ function play(card) {
     } else if (card2 == null  ){
         card.style.filter = "brightness(1)"
         card2 = card
-        setTimeout( checkMatch , 300)
+        setTimeout( checkMatch, 500)
     }
 }
 //checks if 2 selected cards are matching
@@ -30,6 +32,13 @@ function checkMatch() {
         matchedCards.push(card2)
         card1 = null 
         card2 = null
+        if (matchedCards.length === 20){
+            mainContainer.innerHTML = "";
+            winning.play()
+            const win = document.createElement("div");
+            win.className="win"
+            mainContainer.appendChild(win)
+        }
     } else {
         mismatch.play()
         card1.style.filter = "brightness(0)"
